@@ -165,11 +165,11 @@
 }
 
 .popup-btn.primary {
-    background-color: #009688;
+    background-color: #1E9378;
     color: white;
-    border-color: #009688;
+    border-color: #1E9378;
 }
 
 .popup-btn.primary:hover {
-    background-color: #00796b;
+    background-color: #177a63;
 }

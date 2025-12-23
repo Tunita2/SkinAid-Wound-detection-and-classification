@@ -137,6 +137,7 @@ const MapModal = ({ isOpen, onClose }: MapModalProps) => {
         end_latitude: end.lat,
         end_longitude: end.lng,
         mode: mode,
+        language: i18n.language === "vi" ? "vi" : "en",
       });
       setRouteData(route);
     } catch (error) {

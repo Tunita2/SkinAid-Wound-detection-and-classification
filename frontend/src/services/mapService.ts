@@ -55,6 +55,7 @@ export interface RouteRequest {
     end_latitude: number;
     end_longitude: number;
     mode?: "drive" | "walk" | "bike";
+    language?: "vi" | "en"; // Language for route instructions
 }
 
 export interface GeocodeResponse {

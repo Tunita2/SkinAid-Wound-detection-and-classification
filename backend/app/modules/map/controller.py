@@ -179,7 +179,8 @@ class MapController:
                 start_lon=request.start_longitude,
                 end_lat=request.end_latitude,
                 end_lon=request.end_longitude,
-                mode=request.mode
+                mode=request.mode,
+                language=request.language
             )
 
             # Kiểm tra nếu không tìm thấy route

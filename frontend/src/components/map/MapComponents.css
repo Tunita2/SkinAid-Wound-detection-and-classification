@@ -1,5 +1,5 @@
 :root {
-    --map-primary: #009688;
+    --map-primary: #1E9378;
     --map-primary-foreground: #ffffff;
     --map-background: #ffffff;
     --map-foreground: #0f172a;
@@ -11,7 +11,7 @@
 
 .facility-card {
     padding: 0.875rem;
-    border: 1px solid rgba(0, 150, 136, 0.2);
+    border: 1px solid rgba(30, 147, 120, 0.2);
     border-radius: var(--map-radius);
     background-color: var(--map-background);
     transition: all 0.2s;
@@ -26,7 +26,7 @@
 }
 
 .facility-card:hover {
-    border-color: rgba(0, 150, 136, 0.4);
+    border-color: rgba(30, 147, 120, 0.4);
     box-shadow: var(--map-shadow);
 }
 
@@ -162,7 +162,7 @@
 }
 
 .map-btn.primary:hover {
-    background-color: #00796b;
+    background-color: #177a63;
 }
 
 /* Filter Chips */

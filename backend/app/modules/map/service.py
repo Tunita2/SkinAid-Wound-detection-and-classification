@@ -104,30 +104,48 @@ class GeoapifyService:
         start_lon: float,
         end_lat: float,
         end_lon: float,
-        mode: str = "drive"  # drive, walk, bike
+        mode: str = "drive",  # drive, walk, bike
+        language: str = "en"  # Language for route instructions
     ) -> Dict[str, Any]:
         url = f"{self.base_url}/v1/routing"
 
         waypoints = f"{start_lat},{start_lon}|{end_lat},{end_lon}"
 
+        # Geoapify supported languages for routing instructions
+        # Vietnamese is NOT supported, so we'll use English as default
+        # Supported: bg, ca, cs, da, de, el, en-GB, en, es, et, fi, fr, hi, hu, it, ja, nb-NO, nl, pl, pt-BR, pt, ro, ru, sk, sl, sv, tr, uk
+        supported_languages = {
+            "bg", "ca", "cs", "da", "de", "el", "en-GB", "en", "es", "et", 
+            "fi", "fr", "hi", "hu", "it", "ja", "nb-NO", "nl", "pl", "pt-BR", 
+            "pt", "ro", "ru", "sk", "sl", "sv", "tr", "uk"
+        }
+        
+        # Use requested language if supported, otherwise default to English
+        route_lang = language if language in supported_languages else "en"
+
+        # Map frontend modes to Geoapify modes
+        # drive -> drive (car)
+        # bike -> motorcycle (xe máy) or bicycle (xe đạp) - using motorcycle for Vietnam
+        # walk -> walk
+        geoapify_mode = mode
+        if mode == "bike":
+            geoapify_mode = "motorcycle"  # xe máy
+        elif mode == "walk":
+            geoapify_mode = "walk"
+        elif mode == "drive":
+            geoapify_mode = "drive"  # ô tô
+
         params = {
             "waypoints": waypoints,
-            "mode": mode,
-            "apiKey": self.api_key
+            "mode": geoapify_mode,
+            "apiKey": self.api_key,
+            "lang": route_lang
         }
-
-        # Map frontend mode 'bike' to Geoapify 'motorcycle' (common in Vietnam)
-        if mode == "bike":
-            params["mode"] = "motorcycle"
-        elif mode == "walk":
-            params["mode"] = "walk"
-        elif mode == "drive":
-            params["mode"] = "drive"
 
         logger.info(
             f"[MAP_SERVICE] Tính route: "
             f"({start_lat},{start_lon}) → ({end_lat},{end_lon}), "
-            f"mode={mode}"
+            f"mode={mode} (geoapify: {geoapify_mode})"
         )
 
         async with httpx.AsyncClient(timeout=self.timeout) as client:

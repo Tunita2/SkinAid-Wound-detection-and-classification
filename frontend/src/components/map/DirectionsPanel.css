@@ -7,7 +7,7 @@
 }
 
 .directions-header {
-    background-color: #009688;
+    background-color: #1E9378;
     padding: 0.875rem;
     display: flex;
     gap: 0.75rem;
@@ -131,7 +131,7 @@
 }
 
 .route-input:focus {
-    outline: 2px solid #009688;
+    outline: 2px solid #1E9378;
     background: white;
 }
 
@@ -187,12 +187,12 @@
 
 .mode-btn:hover {
     background-color: #f1f5f9;
-    color: #009688;
+    color: #1E9378;
 }
 
 .mode-btn.active {
-    color: #009688;
-    background-color: rgba(0, 150, 136, 0.1);
+    color: #1E9378;
+    background-color: rgba(30, 147, 120, 0.1);
 }
 
 .route-summary {
@@ -216,7 +216,7 @@
 .duration {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #009688;
+    color: #1E9378;
 }
 
 @media (min-width: 480px) {

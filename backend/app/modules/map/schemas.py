@@ -48,6 +48,10 @@ class RouteRequest(BaseModel):
         default="drive",
         description="Phương thức di chuyển: drive, walk, bike (hoặc driving, walking, bicycling)"
     )
+    language: str = Field(
+        default="vi",
+        description="Ngôn ngữ cho chỉ dẫn đường đi (vi, en)"
+    )
 
     @validator("mode")
     def validate_mode(cls, v):

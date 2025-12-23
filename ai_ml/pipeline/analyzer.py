@@ -69,9 +69,6 @@ class WoundAnalyzer:
                     final_conf = self.getConfidenceFusion(
                         detections[i]["confidence"], conf, 0.3, 0.7
                     )
-                    print("yolo_conf:", detections[i]["confidence"])
-                    print("eff_conf:", conf)
-                    print("final_conf:", final_conf)
 
                     results.append(
                         {
