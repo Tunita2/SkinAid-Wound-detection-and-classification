@@ -30,6 +30,7 @@ import { getCroppedImg } from "../utils/canvasUtils";
 import {
   analyzeImageQuality,
   autoEnhanceImage,
+  type ImageQualityResult,
 } from "../utils/imageProcessingUtils";
 import { useGuestSession } from "../hooks/useGuestSession";
 
@@ -94,6 +95,11 @@ const UploadPage = () => {
   const [isEnhancing, setIsEnhancing] = useState(false);
   const hasProcessedRef = useRef(false);
 
+  // Thêm vào cùng các state khác
+  const [rawQuality, setRawQuality] = useState<ImageQualityResult | null>(null);
+  const [enhancedQuality, setEnhancedQuality] =
+    useState<ImageQualityResult | null>(null);
+
   // --- LOGIC FUNCTIONS ---
 
   const validateQuality = useCallback(
@@ -101,6 +107,8 @@ const UploadPage = () => {
       setStep("CHECKING_QUALITY");
       try {
         const result = await analyzeImageQuality(url);
+        setRawQuality(result); // Lưu thông số gốc [cite: 31, 32]
+
         const issues: string[] = [];
         if (result.isBlurry) issues.push(t("upload.issue.blur"));
         if (result.brightness === "dark") issues.push(t("upload.issue.dark"));
@@ -112,12 +120,10 @@ const UploadPage = () => {
             setQualityIssues(issues);
             setStep("REVIEW");
           } else {
-            setQualityIssues([]);
             setStep("READY");
           }
         }, 1200);
       } catch (e) {
-        console.error(e);
         setStep("READY");
       }
     },
@@ -222,10 +228,13 @@ const UploadPage = () => {
     if (!previewUrl) return;
     setIsEnhancing(true);
     try {
-      const enhancedUrl = await autoEnhanceImage(previewUrl);
+      const { enhancedUrl, quality } = await autoEnhanceImage(previewUrl);
+      setEnhancedQuality(quality); // Lưu thông số sau khi chỉnh sửa
+
       const res = await fetch(enhancedUrl);
       const blob = await res.blob();
       const file = new File([blob], "enhanced.jpg", { type: "image/jpeg" });
+
       setPreviewUrl(enhancedUrl);
       setCurrentFile(file);
       setQualityIssues([]);
@@ -241,7 +250,8 @@ const UploadPage = () => {
     if (!currentFile) return;
 
     // Kiểm tra trực tiếp localStorage thay vì dựa vào state (có thể có race condition)
-    const token = localStorage.getItem("userToken") || sessionStorage.getItem("userToken");
+    const token =
+      localStorage.getItem("userToken") || sessionStorage.getItem("userToken");
 
     if (!token) {
       // User là guest - cần có session_id
@@ -252,8 +262,11 @@ const UploadPage = () => {
         let waitCount = 0;
         const maxWait = 30; // 30 * 100ms = 3 seconds
 
-        while (!localStorage.getItem("guest_session_id") && waitCount < maxWait) {
-          await new Promise(resolve => setTimeout(resolve, 100));
+        while (
+          !localStorage.getItem("guest_session_id") &&
+          waitCount < maxWait
+        ) {
+          await new Promise((resolve) => setTimeout(resolve, 100));
           waitCount++;
         }
 
@@ -310,6 +323,57 @@ const UploadPage = () => {
     step === "CHECKING_TECH" ||
     step === "CHECKING_QUALITY" ||
     step === "UPLOADING";
+
+  // Chèn đoạn này TRƯỚC dòng "return (" của UploadPage
+  const renderQualityStats = () => {
+    if (!rawQuality && !enhancedQuality) return null;
+
+    return (
+      <div className={styles.qualityStatsContainer}>
+        <h5 className={styles.statsTitle}>
+          <FaMagic style={{ marginRight: "8px", color: "#4a90e2" }} />
+          {t("Chỉ số chất lượng ảnh")}
+        </h5>
+        <table className={styles.statsTable}>
+          <thead>
+            <tr>
+              <th>Chỉ số</th>
+              <th>Gốc</th>
+              {enhancedQuality && <th>Đã chỉnh sửa</th>}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Độ sáng (0-255)</td>
+              <td
+                className={
+                  rawQuality?.brightness !== "ok" ? styles.textWarning : ""
+                }
+              >
+                {rawQuality?.brightnessScore}
+              </td>
+              {enhancedQuality && (
+                <td className={styles.textSuccess}>
+                  {enhancedQuality.brightnessScore}
+                </td>
+              )}
+            </tr>
+            <tr>
+              <td>Độ sắc nét</td>
+              <td className={rawQuality?.isBlurry ? styles.textWarning : ""}>
+                {rawQuality?.blurScore.toFixed(2)}
+              </td>
+              {enhancedQuality && (
+                <td className={styles.textSuccess}>
+                  {enhancedQuality.blurScore.toFixed(2)}
+                </td>
+              )}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    );
+  };
 
   return (
     <div
@@ -479,6 +543,8 @@ const UploadPage = () => {
                     <FaExclamationTriangle />
                     <span>{t("upload.warning.quality")}</span>
                   </div>
+
+                  {renderQualityStats()}
                   <ul className={styles.issueList}>
                     {qualityIssues.map((issue, idx) => (
                       <li key={idx}>{issue}</li>
@@ -523,6 +589,8 @@ const UploadPage = () => {
                     <FaCheck />
                     <span>{t("upload.status.ready")}</span>
                   </div>
+
+                  {renderQualityStats()}
                   <p className={styles.note}>{t("upload.note.ready_tip")}</p>
                   <div className={styles.actionGroup}>
                     <button
@@ -548,6 +616,7 @@ const UploadPage = () => {
           </div>
         </div>
       )}
+
       {isDragging && (
         <div className={styles.dragOverlay}>
           <FaUpload /> {t("upload_page.drop")}
