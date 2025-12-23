@@ -81,8 +81,8 @@
   /* Chúng ta dùng :global để can thiệp vào class module của con nếu cần, 
      hoặc dựa vào cấu trúc DOM div > div */
 
-  .imageArea>div,
-  .detailsArea>div {
+  .imageArea > div,
+  .detailsArea > div {
     box-shadow: none !important;
     border: none !important;
     border-radius: 0 !important;
@@ -256,4 +256,195 @@
   background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+/* --- No Wound Detected Styles --- */
+.noWoundContainer {
+  max-width: 800px;
+  margin: 2rem auto;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.errorFlexLayout {
+  display: flex;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  margin-bottom: 2.5rem;
+  border: 1px solid #eef2f6;
+}
+
+.errorImageSide {
+  flex: 0 0 40%; /* Ảnh chiếm 40% chiều rộng */
+  position: relative;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.errorPreviewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.5) blur(1px); /* Làm mờ nhẹ ảnh lỗi để nhấn mạnh thông báo */
+}
+
+.errorOverlayIcon {
+  position: absolute;
+  font-size: 3rem;
+  color: #f59e0b;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 1rem;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.errorTextSide {
+  flex: 1;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.errorBadge {
+  background: #fff3e0;
+  color: #e65100;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.errorTextSide h3 {
+  margin: 0 0 1rem 0;
+  color: #1e293b;
+  font-size: 1.5rem;
+}
+
+.errorTextSide p {
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.miniIssueList {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.miniIssueItem {
+  font-size: 0.85rem;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.miniCheck {
+  color: #94a3b8;
+}
+
+/* Responsive cho Mobile */
+@media (max-width: 768px) {
+  .errorFlexLayout {
+    flex-direction: column;
+  }
+  .errorImageSide {
+    flex: none;
+    height: 200px;
+  }
+  .errorTextSide {
+    padding: 1.5rem;
+    align-items: center;
+    text-align: center;
+  }
+  .miniIssueList {
+    justify-content: center;
+  }
+}
+
+.guidelineSection {
+  margin-top: 3rem;
+}
+
+.guidelineSection h4 {
+  text-align: center;
+  color: #4a5568;
+  margin-bottom: 2rem;
+}
+
+.guidelineGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.guideCard {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 15px;
+  transition: transform 0.2s;
+  border: 1px solid #edf2f7;
+}
+
+.guideCard:hover {
+  transform: translateY(-5px);
+  border-color: #4a9d8e;
+}
+
+.guideIcon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.guideCard h5 {
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.guideCard p {
+  font-size: 0.85rem;
+  color: #718096;
+  line-height: 1.4;
+}
+
+.noWoundActions {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+.reUploadButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #4a9d8e;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(74, 157, 142, 0.4);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

@@ -290,6 +290,9 @@
     "treatment_not_recommended_label": "Không được khuyến nghị",
     "treatment_not_recommended_sub_label": "Những điều cần tránh - {{item_length}} mục",
     "treatment_not_step": "Không có hướng dẫn cụ thể nào.",
+    "no_wound": "Không phát hiện vết thương",
+    "system_notice": "Thông báo hệ thống",
+    "no_wound_desc_detail": "Hệ thống đã quét toàn bộ hình ảnh nhưng không thể tìm thấy dấu hiệu vết thương rõ ràng. Điều này thường xảy ra do chất lượng ảnh đầu vào không đạt yêu cầu kỹ thuật.",
     "wound_type": {
       "abrasion": "Trầy xước",
       "burn": "Bỏng",

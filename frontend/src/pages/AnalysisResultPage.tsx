@@ -27,6 +27,12 @@ import {
   type UserProfileResponse,
 } from "../services/profileService";
 import { useTranslation } from "react-i18next";
+import {
+  FaCheck,
+  FaExclamationTriangle,
+  FaImage,
+  FaRedo,
+} from "react-icons/fa";
 
 // --- Types ---
 type Severity = "Mild" | "Moderate" | "Severe" | string;
@@ -197,7 +203,10 @@ const AnalysisResultPage = () => {
           // Check for 403 Forbidden (Access Denied)
           if (err.response?.status === 403) {
             setIsAccessDenied(true);
-            setError(t("analysis_result.access_denied_message") || "Bạn không có quyền xem kết quả phân tích này.");
+            setError(
+              t("analysis_result.access_denied_message") ||
+                "Bạn không có quyền xem kết quả phân tích này."
+            );
           } else {
             setError(err.response?.data?.message || "Failed to fetch.");
           }
@@ -327,7 +336,9 @@ const AnalysisResultPage = () => {
       <div className={styles.analysisPage}>
         <div className={styles.loadingContainer}>
           <div className={styles.loadingSpinner}></div>
-          <p>{t("analysis_result.loading") || "Đang tải kết quả phân tích..."}</p>
+          <p>
+            {t("analysis_result.loading") || "Đang tải kết quả phân tích..."}
+          </p>
         </div>
       </div>
     );
@@ -339,16 +350,25 @@ const AnalysisResultPage = () => {
       <div className={styles.analysisPage}>
         <div className={styles.accessDeniedContainer}>
           <div className={styles.accessDeniedIcon}>🔒</div>
-          <h2>{t("analysis_result.access_denied_title") || "Truy cập bị từ chối"}</h2>
-          <p>{error || t("analysis_result.access_denied_message") || "Bạn không có quyền xem kết quả phân tích này."}</p>
+          <h2>
+            {t("analysis_result.access_denied_title") || "Truy cập bị từ chối"}
+          </h2>
+          <p>
+            {error ||
+              t("analysis_result.access_denied_message") ||
+              "Bạn không có quyền xem kết quả phân tích này."}
+          </p>
           <p className={styles.accessDeniedHint}>
-            {t("analysis_result.access_denied_hint") || "Kết quả phân tích này thuộc về tài khoản khác. Vui lòng đăng nhập với tài khoản đã thực hiện phân tích."}
+            {t("analysis_result.access_denied_hint") ||
+              "Kết quả phân tích này thuộc về tài khoản khác. Vui lòng đăng nhập với tài khoản đã thực hiện phân tích."}
           </p>
           <div className={styles.accessDeniedActions}>
             {!isAuthenticated ? (
               <button
                 className={styles.loginButton}
-                onClick={() => navigate("/login", { state: { from: location.pathname } })}
+                onClick={() =>
+                  navigate("/login", { state: { from: location.pathname } })
+                }
               >
                 {t("analysis_result.login_button") || "Đăng nhập"}
               </button>
@@ -392,21 +412,150 @@ const AnalysisResultPage = () => {
   }
 
   // --- Render Empty State ---
-  if (!analysisData || !currentWoundData || !currentTabData) {
+  // if (!analysisData || !currentWoundData || !currentTabData) {
+  //   return (
+  //     <div className={styles.analysisPage}>
+  //       <AnalysisSidebar
+  //         summaryCounts={summaryCounts}
+  //         tabData={tabData}
+  //         activeTab={activeTab}
+  //         onTabClick={setActiveTab}
+  //         activeMainTab={activeMainTab}
+  //         onMainTabClick={handleMainTabClick}
+  //       />
+  //       <main className={styles.mainContent}>
+  //         {/* Không truyền onDownload -> MainHeader sẽ tự ẩn nút */}
+  //         <MainHeader title="No Wounds Detected" />
+  //         <MedicalDisclaimer />
+  //       </main>
+  //     </div>
+  //   );
+  // }
+
+  // --- Render Empty State (No wounds found) ---
+  if (
+    !analysisData ||
+    analysisData.significant_wounds.length === 0 ||
+    !currentWoundData ||
+    !currentTabData
+  ) {
     return (
       <div className={styles.analysisPage}>
         <AnalysisSidebar
-          summaryCounts={summaryCounts}
-          tabData={tabData}
-          activeTab={activeTab}
-          onTabClick={setActiveTab}
-          activeMainTab={activeMainTab}
-          onMainTabClick={handleMainTabClick}
+          summaryCounts={{ total: 0, abrasion: 0, burn: 0, bruise: 0 }}
+          tabData={[]}
+          activeTab=""
+          onTabClick={() => {}}
+          activeMainTab="abrasion"
+          onMainTabClick={() => {}}
         />
         <main className={styles.mainContent}>
-          {/* Không truyền onDownload -> MainHeader sẽ tự ẩn nút */}
-          <MainHeader title="No Wounds Detected" />
+          <MainHeader
+            title={t("analysis.no_wound") || "Không tìm thấy vết thương"}
+          />
           <MedicalDisclaimer />
+
+          <div className={styles.noWoundContainer}>
+            <div className={styles.errorFlexLayout}>
+              <div className={styles.errorImageSide}>
+                <img
+                  src={
+                    analysisData
+                      ? `${BACKEND_URL}${analysisData.image_url}`
+                      : ""
+                  }
+                  alt="Analyzed preview"
+                  className={styles.errorPreviewImage}
+                />
+                <div className={styles.errorOverlayIcon}>
+                  <FaExclamationTriangle />
+                </div>
+              </div>
+
+              <div className={styles.errorTextSide}>
+                <span className={styles.errorBadge}>
+                  {t("analysis.system_notice") || "Thông báo hệ thống"}
+                </span>
+                <h3>
+                  {t("analysis.no_wound") || "Không nhận diện được vết thương"}
+                </h3>
+                <p>
+                  {t("analysis.no_wound_desc_detail") ||
+                    "Hệ thống đã quét toàn bộ hình ảnh nhưng không thể tìm thấy dấu hiệu vết thương rõ ràng. Điều này thường xảy ra do chất lượng ảnh đầu vào không đạt yêu cầu kỹ thuật."}
+                </p>
+
+                <div className={styles.miniIssueList}>
+                  <div className={styles.miniIssueItem}>
+                    <FaCheck className={styles.miniCheck} />{" "}
+                    {t("upload.issue.blur") || "Độ nét chưa đủ"}
+                  </div>
+                  <div className={styles.miniIssueItem}>
+                    <FaCheck className={styles.miniCheck} />{" "}
+                    {t("upload.issue.dark") || "Ánh sáng không đều"}
+                  </div>
+                </div>
+
+                {/* <button
+                  className={styles.reUploadButton}
+                  onClick={() => navigate("/upload")}
+                >
+                  <FaRedo /> {t("upload.btn.retake") || "Chụp lại ảnh mới"}
+                </button> */}
+              </div>
+            </div>
+
+            {/* <div className={styles.guidelineSection}>
+              <h4>
+                {t("analysis_result.how_to_fix") ||
+                  "Làm sao để có kết quả tốt hơn?"}
+              </h4>
+              <div className={styles.guidelineGrid}>
+                <div className={styles.guideCard}>
+                  <div className={styles.guideIcon}>💡</div>
+                  <h5>{t("upload.issue.dark") || "Thiếu ánh sáng"}</h5>
+                  <p>
+                    {t("analysis_result.guide_light") ||
+                      "Hãy chụp ảnh ở nơi có ánh sáng tự nhiên, tránh bị đổ bóng hoặc quá tối."}
+                  </p>
+                </div>
+                <div className={styles.guideCard}>
+                  <div className={styles.guideIcon}>📸</div>
+                  <h5>{t("upload.issue.blur") || "Ảnh bị mờ"}</h5>
+                  <p>
+                    {t("analysis_result.guide_blur") ||
+                      "Giữ chắc tay và lấy nét trực tiếp vào vùng da nghi ngờ."}
+                  </p>
+                </div>
+                <div className={styles.guideCard}>
+                  <div className={styles.guideIcon}>📏</div>
+                  <h5>
+                    {t("upload_page.error.resize_needed") || "Khoảng cách"}
+                  </h5>
+                  <p>
+                    {t("analysis_result.guide_distance") ||
+                      "Đừng để camera quá xa. Hãy đảm bảo vết thương chiếm khoảng 50% khung hình."}
+                  </p>
+                </div>
+                <div className={styles.guideCard}>
+                  <div className={styles.guideIcon}>🔄</div>
+                  <h5>{t("upload.issue.bright") || "Góc chụp"}</h5>
+                  <p>
+                    {t("analysis_result.guide_angle") ||
+                      "Chụp thẳng góc diện với vết thương để AI nhận diện rõ cấu trúc bề mặt."}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.noWoundActions}>
+              <button
+                className={styles.reUploadButton}
+                onClick={() => navigate("/upload")}
+              >
+                <FaRedo /> {t("upload.btn.retake") || "Chụp lại ảnh khác"}
+              </button>
+            </div> */}
+          </div>
         </main>
       </div>
     );

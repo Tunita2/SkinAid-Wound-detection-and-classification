@@ -296,6 +296,9 @@
     "treatment_not_recommended_label": "Not recommended",
     "treatment_not_recommended_sub_label": "Things to avoid - {{item_length}} items",
     "treatment_not_step": "There are no specific instructions.",
+    "system_notice": "System Notice",
+    "no_wound": "No wound detected",
+    "no_wound_desc_detail": "The system scanned the entire image but could not find any clear signs of injury. This usually happens because the quality of the input image does not meet the technical requirements.",
     "wound_type": {
       "abrasion": "Abrasion",
       "burn": "Burn",
