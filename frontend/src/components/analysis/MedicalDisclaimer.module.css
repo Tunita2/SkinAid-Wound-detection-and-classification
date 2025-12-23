@@ -8,6 +8,10 @@
   gap: 1rem;
   color: #b45309; /* Màu chữ cam đậm */
   margin-bottom: 1rem;
+
+  /* Thêm hiệu ứng nhấp nháy gợn nước */
+  position: relative;
+  animation: ripple-yellow 2s infinite;
 }
 
 .disclaimerIcon {
@@ -27,4 +31,22 @@
   font-size: 0.9rem;
   margin: 0.25rem 0 0 0;
   line-height: 1.5;
+}
+
+@keyframes ripple-yellow {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(243, 156, 18, 0.4);
+  }
+  50% {
+    /* Co giãn nhẹ khung để tăng hiệu ứng gợn sóng */
+    transform: scale(1.01);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(243, 156, 18, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(243, 156, 18, 0);
+  }
 }

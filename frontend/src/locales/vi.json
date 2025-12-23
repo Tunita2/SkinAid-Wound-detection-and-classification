@@ -274,7 +274,7 @@
     "header_save_button": "Lưu",
     "header_download_button": "Tải báo cáo",
     "medical_title": "Lưu ý quan trọng về thông tin y tế",
-    "medical_desc": "Phân tích AI chỉ nhằm mục đích cung cấp thông tin và không thay thế cho lời khuyên y tế chuyên nghiệp. Mục đích của phân tích này là giúp mọi người có cái nhìn chính xác hơn về tình trạng vết thương, nhưng không thể thay thế đánh giá lâm sàng thực tế. Luôn tham khảo ý kiến ​​bác sĩ hoặc chuyên gia y tế để được chẩn đoán và điều trị an toàn và phù hợp.",
+    "medical_desc": "Phân tích AI chỉ nhằm mục đích cung cấp thông tin và không thay thế cho lời khuyên y tế chuyên nghiệp. Mục đích của phân tích này là giúp mọi người có cái nhìn chính xác hơn về tình trạng vết thương, nhưng không thể thay thế đánh giá lâm sàng thực tế. Luôn tham khảo ý kiến ​​bác sĩ hoặc chuyên gia y tế để được chẩn đoán và điều trị an toàn, phù hợp.",
     "image_title": "Hình ảnh đã phân tích",
     "detail_title": "KHẢ NĂNG PHÁT HIỆN VẾT THƯƠNG",
     "detail_wound": "Loại vết thương",
