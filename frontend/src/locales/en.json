@@ -69,7 +69,7 @@
     "error_password_one_number": "Password must contain at least one number.",
     "error_password__special_character": "Password must contain at least one special character (!@#$%^&*).",
     "error_confirm_password_required": "Please confirm your password.",
-    "error_confirm_passwords_not_match": "Passwords do not match.",
+    "error_confirm_password_not_match": "Passwords do not match.",
     "error_email_required": "Email is required.",
     "error_email_invalid": "Please enter a valid email address.",
     "error_terms_required": "You must agree to the Terms and Conditions."

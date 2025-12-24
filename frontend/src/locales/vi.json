@@ -60,11 +60,18 @@
   },
   "validation": {
     "error_username_required": "Tên người dùng là bắt buộc.",
+    "error_username_less_than_3": "Tên người dùng phải có ít nhất 3 ký tự.",
+    "error_username_more_than_50": "Tên người dùng không được vượt quá 50 ký tự.",
+    "error_username_format": "Tên người dùng chỉ được chứa chữ cái, số, dấu gạch dưới (_) và dấu gạch ngang (-). Không được có khoảng trắng hoặc dấu phụ.",
     "error_password_required": "Mật khẩu là bắt buộc.",
-    "error_email_required": "Email là bắt buộc.",
-    "error_email_invalid": "Vui lòng nhập địa chỉ email hợp lệ.",
+    "error_password_less_than_8": "Mật khẩu phải có ít nhất 8 ký tự.",
+    "error_password_uppercase": "Mật khẩu phải chứa ít nhất một chữ cái viết hoa.",
+    "error_password_one_number": "Mật khẩu phải chứa ít nhất một số.",
+    "error_password__special_character": "Mật khẩu phải chứa ít nhất một ký tự đặc biệt (!@#$%^&*).",
     "error_confirm_password_required": "Vui lòng xác nhận mật khẩu của bạn.",
-    "error_passwords_not_match": "Mật khẩu không khớp.",
+    "error_confirm_password_not_match": "Mật khẩu không khớp.",
+    "error_email_required": "Bắt buộc phải có email.",
+    "error_email_invalid": "Vui lòng nhập địa chỉ email hợp lệ.",
     "error_terms_required": "Bạn phải đồng ý với Điều khoản và Điều kiện."
   },
   "header": {
