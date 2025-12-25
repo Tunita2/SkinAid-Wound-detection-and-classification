@@ -8,7 +8,7 @@ interface DetailsProps {
   subType?: string | null; // <-- 1. Thêm prop này (có thể null hoặc undefined)
   severity: string;
   healingTime: string;
-  supportItems: string[];
+  supportItems: string[];1
 }
 
 const capitalize = (str: string) =>

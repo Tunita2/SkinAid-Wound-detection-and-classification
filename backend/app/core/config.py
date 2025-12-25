@@ -58,6 +58,7 @@ class Settings(BaseSettings):
     REDOC_URL: str = "/redoc"
 
     BASE_URL: str = "http://localhost:8000"
+    FRONTEND_URL: str = "http://localhost:3000"
 
     model_config = SettingsConfigDict(
         env_file=".env", 

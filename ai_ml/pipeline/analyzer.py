@@ -46,7 +46,7 @@ class WoundAnalyzer:
     def getConfidenceFusion(
         self, yolo_conf: float, eff_conf: float, w_yolo: float, w_eff: float
     ) -> Optional[float]:
-        return yolo_conf * w_yolo + eff_conf * w_eff
+        return yolo_conf * w_yolo * eff_conf * w_eff
 
     def analyze(self, image, conf_threshold: Optional[float] = None):
         try:
@@ -67,9 +67,11 @@ class WoundAnalyzer:
 
                     # Công thức kết hợp độ tin cậy
                     final_conf = self.getConfidenceFusion(
-                        detections[i]["confidence"], conf, 0.3, 0.7
+                        detections[i]["confidence"], conf, 1, 1
                     )
-
+                    print(f"Yolo: {detections[i]['confidence']}")
+                    print(f"Eff: {conf}")
+                    print(f"Final: {final_conf}")
                     results.append(
                         {
                             "bbox": detections[i]["bbox"],

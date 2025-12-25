@@ -27,12 +27,7 @@ import {
   type UserProfileResponse,
 } from "../services/profileService";
 import { useTranslation } from "react-i18next";
-import {
-  FaCheck,
-  FaExclamationTriangle,
-  FaImage,
-  FaRedo,
-} from "react-icons/fa";
+import { FaCheck, FaExclamationTriangle } from "react-icons/fa";
 
 // --- Types ---
 type Severity = "Mild" | "Moderate" | "Severe" | string;

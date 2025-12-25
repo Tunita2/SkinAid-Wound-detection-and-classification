@@ -53,7 +53,7 @@ class SeverityClassifier:
                 confidence, predicted = torch.max(probs, dim=1)
 
             severity_class = self.classes[predicted.item()]
-            confidence_score = round(confidence.item(), 2)    
+            confidence_score = round(confidence.item(), 4)    
             return severity_class, confidence_score
         except Exception:
             return "unknown", 0.0

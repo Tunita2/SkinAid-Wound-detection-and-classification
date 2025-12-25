@@ -99,7 +99,7 @@ export default function DashboardCharts({ woundTypeData, severityStats }: Dashbo
                   borderRadius: '8px',
                   boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
                 }}
-                formatter={(value: number, _name: string, props: { payload?: { name: string } }) => {
+                formatter={(value, _name, props) => {
                   return [`${value} ${t('admin.dashboard.charts.cases')}`, props.payload?.name];
                 }}
                 labelFormatter={(label: string) => `${t('admin.dashboard.charts.severity_label')}: ${translateSeverity(label)}`}

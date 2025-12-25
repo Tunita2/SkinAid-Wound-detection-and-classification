@@ -67,6 +67,9 @@ services:
       # Base URL
       - BASE_URL=${BASE_URL}
       
+      # Frontend URL for email links
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:3000}
+      
       # Geoapify
       - GEOAPIFY_API_KEY=${GEOAPIFY_API_KEY}
 

@@ -198,17 +198,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  // Giá trị context (Giữ nguyên)
-  const value: AuthContextType = {
-    isAuthenticated,
-    isLoading,
-    user,
-    login,
-    logout,
-    updateUser,
-    refreshUser,
-  };
-
   // Ngăn con render khi đang xác thực lúc reload
   if (isLoading) {
     return (

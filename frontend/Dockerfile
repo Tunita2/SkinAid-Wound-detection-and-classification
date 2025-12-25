@@ -2,7 +2,7 @@
 FROM node:20-alpine AS builder
 
 # Build argument cho API URL
-ARG VITE_API_URL=http://localhost:8000/api/v1
+ARG VITE_API_URL=/api/v1
 ENV VITE_API_URL=$VITE_API_URL
 
 # Thiết lập working directory
