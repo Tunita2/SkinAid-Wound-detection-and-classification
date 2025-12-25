@@ -1,6 +1,6 @@
 from sqlmodel import SQLModel, Field, Relationship, Column
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy import UUID
+from sqlalchemy import UUID, Float
 from typing import Optional, TYPE_CHECKING
 from datetime import datetime, timezone
 import uuid
@@ -24,8 +24,10 @@ class WoundDetection(SQLModel, table=True):
     wound_type: str = Field(max_length=100)
     severity: str = Field(max_length=100)
     sub_type: Optional[str] = Field(max_length=100, default=None)
-    confidence_score: float = Field(ge=0.0, le=1.0)
-
+    # confidence_score: float = Field(ge=0.0, le=1.0)
+    confidence_score: float = Field(
+        sa_column=Column(Float(precision=53), nullable=False)
+    )
     bounding_box: dict = Field(sa_column=Column(JSONB, nullable=False))
 
     detection_index: int = Field(default=0, ge=0)

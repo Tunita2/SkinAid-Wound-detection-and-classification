@@ -127,9 +127,9 @@ const AnalysisReportTemplate = ({
 
     // Lấy style cho vết thương hiện tại
     const { boxStyle, labelStyle } = getBoundingBoxStyles(wound);
-    const labelText = `${wound.wound_type} ${(
-      wound.confidence_score * 100
-    ).toFixed(0)}%`;
+    const labelText = `${wound.wound_type} ${parseFloat(
+      (wound.confidence_score * 100).toFixed(2)
+    )}%`;
 
     return (
       // Thêm class 'pdf-page-to-print' để html2canvas nhận diện
@@ -145,9 +145,9 @@ const AnalysisReportTemplate = ({
               <h1 className={styles.brandTitle}>
                 Skin<span className={styles.brandTitleSub}>Aid</span>
               </h1>
-              <h2 className={styles.reportTitle}>MEDICAL REPORT</h2>
+              <h2 className={styles.reportTitle}>BÁO CÁO Y TẾ</h2>
               <p className={styles.brandSubtitle}>
-                AI-Powered Wound Assessment System
+                Skin wound detection and classification support system
               </p>
             </div>
           </div>
@@ -157,21 +157,21 @@ const AnalysisReportTemplate = ({
             <table className={styles.metaTable}>
               <tbody>
                 <tr>
-                  <td className={styles.metaLabel}>Report ID:</td>
+                  <td className={styles.metaLabel}>ID báo cáo:</td>
                   <td className={styles.metaValue}>{reportId}</td>
                 </tr>
                 <tr>
-                  <td className={styles.metaLabel}>Date:</td>
+                  <td className={styles.metaLabel}>Ngày:</td>
                   <td className={styles.metaValue}>{reportDate}</td>
                 </tr>
                 {fileName && (
                   <tr>
-                    <td className={styles.metaLabel}>Source:</td>
+                    <td className={styles.metaLabel}>Nguồn:</td>
                     <td className={styles.metaValue}>{fileName}</td>
                   </tr>
                 )}
                 <tr>
-                  <td className={styles.metaLabel}>Page:</td>
+                  <td className={styles.metaLabel}>Trang:</td>
                   <td className={styles.metaValue}>
                     {index + 1}/{wounds.length}
                   </td>
@@ -187,31 +187,31 @@ const AnalysisReportTemplate = ({
           <div className={styles.patientInfoSection}>
             <div className={styles.patientInfoGrid}>
               <div className={styles.pItem}>
-                <span className={styles.pLabel}>Patient Name:</span>
+                <span className={styles.pLabel}>Tên người bệnh:</span>
                 <span className={styles.pValue}>
                   {userProfile.full_name || "N/A"}
                 </span>
               </div>
               <div className={styles.pItem}>
-                <span className={styles.pLabel}>Gender:</span>
+                <span className={styles.pLabel}>Giới tính:</span>
                 <span className={styles.pValue}>
                   {userProfile.gender_display || "N/A"}
                 </span>
               </div>
               <div className={styles.pItem}>
-                <span className={styles.pLabel}>Day of Birth:</span>
+                <span className={styles.pLabel}>Ngày sinh:</span>
                 <span className={styles.pValue}>
                   {userProfile.age ? `${userProfile.date_of_birth}` : "N/A"}
                 </span>
               </div>
               <div className={styles.pItem}>
-                <span className={styles.pLabel}>Age:</span>
+                <span className={styles.pLabel}>Tuổi:</span>
                 <span className={styles.pValue}>
                   {userProfile.age ? `${userProfile.age}` : "N/A"}
                 </span>
               </div>
               <div className={styles.pItem}>
-                <span className={styles.pLabel}>Phone:</span>
+                <span className={styles.pLabel}>Điện thoại:</span>
                 <span className={styles.pValue}>
                   {userProfile.phone || "N/A"}
                 </span>
@@ -224,7 +224,7 @@ const AnalysisReportTemplate = ({
 
         {/* --- SECTION 1: CLINICAL ASSESSMENT --- */}
         <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>1. Clinical Assessment</h2>
+          <h2 className={styles.sectionTitle}>1. Đánh giá lâm sàng</h2>
 
           <div className={styles.assessmentGrid}>
             {/* Cột Hình ảnh */}
@@ -251,15 +251,15 @@ const AnalysisReportTemplate = ({
                 )}
               </div>
               <div className={styles.imageCaption}>
-                Identified Region: {wound.wound_type.toUpperCase()}Processed
-                Analysis Image
+                Khu vực đã xác định: {wound.wound_type.toUpperCase()}Đã xử lý
+                Hình ảnh phân tích
               </div>
             </div>
 
             {/* Cột Thông số */}
             <div className={styles.metricsColumn}>
               <div className={styles.metricRow}>
-                <span className={styles.metricLabel}>Primary Diagnosis:</span>
+                <span className={styles.metricLabel}>Chẩn đoán chính:</span>
                 <span className={styles.metricValueLarge}>
                   {wound.wound_type.toUpperCase()}
                 </span>
@@ -267,13 +267,13 @@ const AnalysisReportTemplate = ({
 
               {wound.sub_type && (
                 <div className={styles.metricRow}>
-                  <span className={styles.metricLabel}>Sub-type:</span>
+                  <span className={styles.metricLabel}>Loại phụ:</span>
                   <span className={styles.metricValue}>{wound.sub_type}</span>
                 </div>
               )}
 
               <div className={styles.metricRow}>
-                <span className={styles.metricLabel}>Severity Level:</span>
+                <span className={styles.metricLabel}>Mức độ nghiêm trọng:</span>
                 <span
                   className={`${styles.severityBadge} ${
                     styles[wound.severity.toLowerCase()]
@@ -284,14 +284,16 @@ const AnalysisReportTemplate = ({
               </div>
 
               <div className={styles.metricRow}>
-                <span className={styles.metricLabel}>AI Confidence:</span>
+                <span className={styles.metricLabel}>Độ tin cậy:</span>
                 <span className={styles.metricValue}>
-                  {(wound.confidence_score * 100).toFixed(1)}%
+                  {parseFloat((wound.confidence_score * 100).toFixed(2))}%
                 </span>
               </div>
 
               <div className={styles.metricRow}>
-                <span className={styles.metricLabel}>Est. Healing Time:</span>
+                <span className={styles.metricLabel}>
+                  Thời gian lành ước tính:
+                </span>
                 <span className={styles.metricValue}>
                   {firstaid_snapshot.estimated_healing_time || "Varied"}
                 </span>
@@ -323,7 +325,7 @@ const AnalysisReportTemplate = ({
 
         {/* --- SECTION 2: IMMEDIATE ACTION PLAN --- */}
         <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>2. Immediate First Aid</h2>
+          <h2 className={styles.sectionTitle}>2. Sơ cứu khẩn cấp</h2>
           <div className={styles.stepsContainer}>
             <h3 className={styles.subHeader}>
               {firstaid_snapshot.title || "Step-by-step Instructions"}
@@ -341,7 +343,7 @@ const AnalysisReportTemplate = ({
 
         {/* --- SECTION 3: CARE GUIDELINES --- */}
         <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>3. Care Guidelines</h2>
+          <h2 className={styles.sectionTitle}>3. Hướng dẫn chăm sóc</h2>
           <div className={styles.gridTwo}>
             {/* DOs */}
             <div className={`${styles.guidelineBox} ${styles.boxDo}`}>
@@ -349,7 +351,7 @@ const AnalysisReportTemplate = ({
                 className={styles.guidelineHeader}
                 style={{ color: "#27ae60" }}
               >
-                ✓ DO (Nên làm)
+                ✓ NÊN LÀM
               </h3>
               <ul className={styles.checkList}>
                 {firstaid_snapshot.dos && firstaid_snapshot.dos.length > 0 ? (
@@ -357,7 +359,7 @@ const AnalysisReportTemplate = ({
                     <li key={i}>{item}</li>
                   ))
                 ) : (
-                  <li>Follow general hygiene practices.</li>
+                  <li>Hãy tuân thủ các quy tắc vệ sinh chung.</li>
                 )}
               </ul>
             </div>
@@ -368,7 +370,7 @@ const AnalysisReportTemplate = ({
                 className={styles.guidelineHeader}
                 style={{ color: "#c0392b" }}
               >
-                ✕ DON'T (Không nên)
+                ✕ KHÔNG NÊN
               </h3>
               <ul className={styles.crossList}>
                 {firstaid_snapshot.donts &&
@@ -377,7 +379,7 @@ const AnalysisReportTemplate = ({
                     <li key={i}>{item}</li>
                   ))
                 ) : (
-                  <li>Do not ignore infection signs.</li>
+                  <li>Đừng xem nhẹ các dấu hiệu nhiễm trùng.</li>
                 )}
               </ul>
             </div>
@@ -386,7 +388,7 @@ const AnalysisReportTemplate = ({
 
         {/* --- SECTION 4: SUPPLIES --- */}
         <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>4. Recommended Supplies</h2>
+          <h2 className={styles.sectionTitle}>4. Vật tư được đề xuất</h2>
           <div className={styles.suppliesContainer}>
             {firstaid_snapshot.supplies_needed &&
             firstaid_snapshot.supplies_needed.length > 0 ? (
@@ -396,7 +398,7 @@ const AnalysisReportTemplate = ({
                 </span>
               ))
             ) : (
-              <span>Basic first aid kit recommended.</span>
+              <span>Nên chuẩn bị bộ sơ cứu cơ bản.</span>
             )}
           </div>
         </div>

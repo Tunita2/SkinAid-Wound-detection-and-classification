@@ -34,7 +34,8 @@ class WoundDetector:
                     x1, y1, x2, y2 = box.xyxy[0].tolist()
                     detections.append({
                         "class_name": self.model.names[cls_id],
-                        "confidence": round(conf, 4),
+                        # "confidence": round(conf, 4),
+                        "confidence": float(conf),
                         "bbox": [x1, y1, x2, y2],
                     })
             return detections

@@ -22,8 +22,9 @@ class WoundDetectionResponse(WoundDetectionBase):
     @computed_field
     @property
     def confidence_percentage(self) -> float:
-        return round(self.confidence_score * 100, 2)
-
+        # return round(self.confidence_score * 100, 4)
+        return self.confidence_score * 100
+        
     @computed_field
     @property
     def meets_accuracy_threshold(self) -> bool:

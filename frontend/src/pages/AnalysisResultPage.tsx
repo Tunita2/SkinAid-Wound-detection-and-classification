@@ -604,7 +604,9 @@ const AnalysisResultPage = () => {
               <AnalyzedImage
                 imageSrc={`${BACKEND_URL}${analysisData.image_url}`}
                 boundingBox={currentWoundData.bounding_box}
-                label={`${currentWoundData.wound_type} ${currentWoundData.confidence_score}`}
+                label={`${currentWoundData.wound_type} ${parseFloat(
+                  (currentWoundData.confidence_score * 100).toFixed(2)
+                )}`}
               />
             </div>
             <div className={styles.detailsArea}>

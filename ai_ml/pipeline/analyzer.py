@@ -46,7 +46,8 @@ class WoundAnalyzer:
     def getConfidenceFusion(
         self, yolo_conf: float, eff_conf: float, w_yolo: float, w_eff: float
     ) -> Optional[float]:
-        return yolo_conf * w_yolo * eff_conf * w_eff
+        # return yolo_conf * w_yolo * eff_conf * w_eff
+        return float(yolo_conf * w_yolo * eff_conf * w_eff)
 
     def analyze(self, image, conf_threshold: Optional[float] = None):
         try:
@@ -66,9 +67,18 @@ class WoundAnalyzer:
                     severity, conf = self.classifier.classify(crop)
 
                     # Công thức kết hợp độ tin cậy
+                    # final_conf = self.getConfidenceFusion(
+                    #     detections[i]["confidence"], conf, 1, 1
+                    # )
+
+                    # Tính toán giá trị cuối cùng
                     final_conf = self.getConfidenceFusion(
-                        detections[i]["confidence"], conf, 1, 1
-                    )
+                        float(detections[i]["confidence"]), 
+                        float(conf), 
+                        1.0, 
+                        1.0
+                    )   
+                    
                     print(f"Yolo: {detections[i]['confidence']}")
                     print(f"Eff: {conf}")
                     print(f"Final: {final_conf}")
@@ -76,9 +86,11 @@ class WoundAnalyzer:
                         {
                             "bbox": detections[i]["bbox"],
                             "class_name": detections[i]["class_name"],
-                            "wound_confidence": detections[i]["confidence"],
+                            # "wound_confidence": detections[i]["confidence"],
+                            "wound_confidence": float(detections[i]["confidence"]), # Ép kiểu float
                             "severity": severity,
-                            "severity_confidence": final_conf,
+                            # "severity_confidence": final_conf,
+                            "severity_confidence": float(final_conf), # Đảm bảo gửi đi là số lẻ đầy đủ
                         }
                     )
                 except Exception:

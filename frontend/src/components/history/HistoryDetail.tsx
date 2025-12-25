@@ -38,9 +38,7 @@ const HistoryDetail = ({ event, onClose, onDelete }: HistoryDetailProps) => {
       setShowDeleteConfirm(false);
       onClose();
     } catch (error: any) {
-      setDeleteError(
-        error.message || t("history.detail.error_delete")
-      );
+      setDeleteError(error.message || t("history.detail.error_delete"));
       setIsDeleting(false);
     }
   };
@@ -48,6 +46,13 @@ const HistoryDetail = ({ event, onClose, onDelete }: HistoryDetailProps) => {
   const handleCancelDelete = () => {
     setShowDeleteConfirm(false);
     setDeleteError(null);
+  };
+
+  const formatAccuracy = (val: number) => {
+    // val thường là 85.3905...
+    if (val === 0) return 0;
+    // toFixed(2) lấy 2 chữ số lẻ, parseFloat xóa số 0 thừa ở cuối
+    return parseFloat(val.toFixed(2));
   };
 
   return (
@@ -73,9 +78,7 @@ const HistoryDetail = ({ event, onClose, onDelete }: HistoryDetailProps) => {
         <div className={styles.confirmDialog}>
           <div className={styles.confirmContent}>
             <h3>{t("history.detail.confirm_delete")}</h3>
-            <p>
-              {t("history.detail.delete_message")}
-            </p>
+            <p>{t("history.detail.delete_message")}</p>
             <div className={styles.confirmActions}>
               <button
                 onClick={handleCancelDelete}
@@ -89,7 +92,9 @@ const HistoryDetail = ({ event, onClose, onDelete }: HistoryDetailProps) => {
                 disabled={isDeleting}
                 className={styles.confirmButton}
               >
-                {isDeleting ? t("history.detail.deleting") : t("history.detail.confirm_delete_button")}
+                {isDeleting
+                  ? t("history.detail.deleting")
+                  : t("history.detail.confirm_delete_button")}
               </button>
             </div>
           </div>
@@ -195,7 +200,7 @@ const HistoryDetail = ({ event, onClose, onDelete }: HistoryDetailProps) => {
                         }`}
                         style={{ width: `${currentWound.accuracy}%` }}
                       >
-                        {Math.round(currentWound.accuracy)}%
+                        {parseFloat(currentWound.accuracy.toFixed(2))}%
                       </div>
                     </div>
                   </div>
@@ -248,7 +253,9 @@ const HistoryDetail = ({ event, onClose, onDelete }: HistoryDetailProps) => {
                         ))
                       ) : (
                         // Fallback: Nếu không tách được (ví dụ: "Chườm lạnh")
-                        <p>{currentWound.firstAid || t("history.detail.no_info")}</p>
+                        <p>
+                          {currentWound.firstAid || t("history.detail.no_info")}
+                        </p>
                       )}
                     </div>
                   </div>
@@ -275,7 +282,8 @@ const HistoryDetail = ({ event, onClose, onDelete }: HistoryDetailProps) => {
                           ))
                         ) : (
                           <p>
-                            {currentWound.shouldDo || t("history.detail.no_info")}
+                            {currentWound.shouldDo ||
+                              t("history.detail.no_info")}
                           </p>
                         );
                       })()}
@@ -306,7 +314,8 @@ const HistoryDetail = ({ event, onClose, onDelete }: HistoryDetailProps) => {
                           ))
                         ) : (
                           <p>
-                            {currentWound.shouldNotDo || t("history.detail.no_info")}
+                            {currentWound.shouldNotDo ||
+                              t("history.detail.no_info")}
                           </p>
                         );
                       })()}

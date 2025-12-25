@@ -8,7 +8,7 @@ interface DetailsProps {
   subType?: string | null; // <-- 1. Thêm prop này (có thể null hoặc undefined)
   severity: string;
   healingTime: string;
-  supportItems: string[];1
+  supportItems: string[];
 }
 
 const capitalize = (str: string) =>
@@ -26,6 +26,19 @@ const AnalysisDetails = ({
   // Tính toán góc xoay cho vòng gauge
   // (likelihood / 100) * 180 độ
   const gaugeRotation = (likelihood / 100) * 180;
+
+  console.log("Likelihood:", likelihood);
+
+  const formatLikelihood = (val: number) => {
+    // Nếu là số nguyên (ví dụ 46.0), trả về số nguyên (46)
+    if (Number.isInteger(val)) {
+      return val;
+    }
+
+    // Nếu là số lẻ (ví dụ 45.69056), làm tròn lấy 2 chữ số (45.69)
+    // parseFloat kết hợp toFixed(2) sẽ loại bỏ số 0 thừa (ví dụ 45.60 -> 45.6)
+    return parseFloat(val.toFixed(2));
+  };
 
   // --- 1. THÊM HÀM LOGIC ĐỂ CHỌN MÀU ---
   const getGaugeColorClass = (value: number) => {
@@ -55,7 +68,7 @@ const AnalysisDetails = ({
           style={{ transform: `rotate(${gaugeRotation}deg)` }}
         ></div>
         <div className={styles.gaugeCover}>
-          <strong>{Math.round(likelihood)}%</strong>
+          <strong>{formatLikelihood(likelihood)}%</strong>
         </div>
       </div>
 

@@ -157,15 +157,15 @@ class WoundAIService:
                 for i, det in enumerate(result.get("detections", [])):
                     wound_type = det.get('wound_type', 'unknown')
                     severity = det.get('severity', 'unknown')
-                    confidence = det.get('confidence_score', 0)
+                    confidence = det.get('confidence_score', 0.0)
                     
                     # Xác thực lớp
                     is_valid = self.validate_ai_class(wound_type, severity)
                     validation_status = "VALID" if is_valid else "⚠️ INVALID"
-                    
+                    logger.info(f"DEBUG RAW CONFIDENCE: {confidence}") # Thêm dòng này để xem số thô
                     logger.info(
                         f"  [{i}] {validation_status} - {wound_type}/{severity} "
-                        f"(confidence: {confidence:.2%})"
+                        f"(confidence: {confidence:.4f})"
                     )
                 
                 return result
@@ -261,7 +261,7 @@ class WoundAIService:
                     # Lấy thông tin detection gốc
                     raw_wound_type = detection.get("wound_type", "unknown")
                     raw_severity = detection.get("severity", "unknown")
-                    confidence = detection.get("confidence_score", 0.0)
+                    confidence = detection.get("confidence_score", 0.00)
                     
                     # Parse classification để tách wound_type, severity, sub_type
                     # Nếu severity chứa dấu "_", có thể là format cũ: "moderate_blister"

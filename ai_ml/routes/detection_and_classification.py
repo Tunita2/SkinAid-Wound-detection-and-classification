@@ -94,7 +94,8 @@ async def analyze_wound(
                 detection = WoundDetectionAndClassification(
                     wound_type=wound_type,
                     severity=severity,
-                    confidence_score=round(det.get("severity_confidence", 0.0), 2),
+                    # confidence_score=round(det.get("severity_confidence", 0.0), 2),
+                    confidence_score=float(det.get("severity_confidence", 0.0)),
                     bbox={
                         "x": int(det["bbox"][0]),
                         "y": int(det["bbox"][1]),

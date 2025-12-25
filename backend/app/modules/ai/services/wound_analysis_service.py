@@ -184,6 +184,12 @@ class WoundAnalysisService:
             guide_id = self.extract_guide_id(guide)
             snapshot = self.extract_snapshot(guide)
 
+            raw_confidence = detection.get("confidence")
+            if raw_confidence is not None:
+                raw_confidence = float(raw_confidence)
+            else:
+                raw_confidence = 0.0    
+
             # Tạo detection record
             from datetime import datetime, timezone
             wound_detection = WoundDetection(
@@ -191,7 +197,8 @@ class WoundAnalysisService:
                 wound_type=mapped_wound_type,
                 severity=wound_info["severity"],
                 sub_type=wound_info["sub_type"],
-                confidence_score=detection.get("confidence", 0.0),
+                # confidence_score=detection.get("confidence", 0.0),
+                confidence_score=raw_confidence, # Sử dụng giá trị thô ở đây
                 bounding_box=detection.get("bounding_box", {}),
                 detection_index=detection.get("detection_index", 0),
                 firstaidguide_id=guide_id,
