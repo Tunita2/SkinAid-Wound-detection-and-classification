@@ -26,7 +26,7 @@ The project utilizes the most advanced technologies currently available:
 | :----------- | :----------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------- |
 | **Backend**  | ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat&logo=fastapi)                                                                  | Logic processing, high-performance API, asynchronous.                                      |
 | **Frontend** | ![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite) | Modern interface, smooth experience with TypeScript.                                       |
-| **AI Core**  | ![YOLOv11](https://img.shields.io/badge/Model-YOLOv11-blue) ![EfficientNetB0](https://img.shields.io/badge/Model-EfficientNetV2-orange)          | **YOLOv11**: Locate the wound.`<br>`**EfficientNetB0**: Classification of severity levels. |
+| **AI Core**  | ![YOLOv11](https://img.shields.io/badge/Model-YOLOv11-blue) ![EfficientNetB0](https://img.shields.io/badge/Model-EfficientNetB0-orange)          | **YOLOv11**: Locate the wound.`<br>`**EfficientNetB0**: Classification of severity levels. |
 | **Database** | ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat&logo=postgresql)                                                         | Secure and reliable data storage.                                                          |
 | **Deploy**   | ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker)                                                                     | Easy to package and deploy.                                                                |
 
@@ -39,7 +39,7 @@ graph TD
     User["User"] -->|"Upload Image"| FE["Frontend (React)"]
     FE -->|"API Request"| BE["Backend (FastAPI)"]
     BE -->|"Save/Retrieve Data"| DB[("PostgreSQL")]
-    BE -->|"Send Image for Analysis"| AI["AI Service (YOLOv11 + EfficientNetV2)"]
+    BE -->|"Send Image for Analysis"| AI["AI Service (YOLOv11 + EfficientNetB0)"]
     AI -->|"Diagnostic Results"| BE
     BE -->|"First Aid Guide"| FE
 ```
@@ -150,7 +150,7 @@ To help you quickly understand the system without reading the sub-REAME:
 - **`ai_ml/`**: Contains image processing logic.
 - `main.py` / `run.py`: Service entry points.
 - `models/`: Where model weight files are stored (`.pt`, `.h5`, `.onnx`).
-- `pipeline/`: Processing steps from Preprocessing -> Detection (YOLOv11) -> Classification (EfficientNetV2).
+- `pipeline/`: Processing steps from Preprocessing -> Detection (YOLOv11) -> Classification (EfficientNetB0).
 
 - **`backend/`**: Data orchestration center.
 - `app/api/`: Defines endpoints.
