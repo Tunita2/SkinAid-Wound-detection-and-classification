@@ -68,7 +68,7 @@ Using SQL Commands: CREATE DATABASE skinaid_db;
 
 ###### Step 2: Import the SQL file into the database
 
-Assuming your SQL file is named skinaid_schema.sql (The skinaid_schema.sql file is located in "docx" folder), choose methods:
+Assuming your SQL file is named skinaid_schema.sql (The skinaid_schema.sql file is located in "docs" folder), choose methods:
 
 Using pgAdmin 4 (Graphical Interface)
 
