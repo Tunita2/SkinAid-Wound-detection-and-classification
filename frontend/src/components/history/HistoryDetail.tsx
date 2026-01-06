@@ -48,13 +48,6 @@ const HistoryDetail = ({ event, onClose, onDelete }: HistoryDetailProps) => {
     setDeleteError(null);
   };
 
-  const formatAccuracy = (val: number) => {
-    // val thường là 85.3905...
-    if (val === 0) return 0;
-    // toFixed(2) lấy 2 chữ số lẻ, parseFloat xóa số 0 thừa ở cuối
-    return parseFloat(val.toFixed(2));
-  };
-
   return (
     <div className={styles.detailContainer}>
       {/* 1. Header (Nút quay lại) */}

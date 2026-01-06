@@ -46,7 +46,7 @@ class AISettings(BaseSettings):
     ]
 
     # ================== Rate Limiting Configuration ==================
-    RATE_LIMIT: str = "100/day"
+    RATE_LIMIT: str = "10000/day"
     
     # ================== Pydantic Settings Configuration ==================
     model_config = SettingsConfigDict(
